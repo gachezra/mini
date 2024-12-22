@@ -1,0 +1,84 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 280 50% 3%;
+    --foreground: 280 10% 97%;
+    --card: 280 50% 3%;
+    --card-foreground: 280 10% 97%;
+    --popover: 280 50% 3%;
+    --popover-foreground: 280 10% 97%;
+    --primary: 280 100% 50%;
+    --primary-foreground: 280 10% 97%;
+    --secondary: 280 30% 10%;
+    --secondary-foreground: 280 10% 97%;
+    --muted: 280 30% 10%;
+    --muted-foreground: 280 10% 60%;
+    --accent: 280 30% 10%;
+    --accent-foreground: 280 10% 97%;
+    --destructive: 0 100% 30%;
+    --destructive-foreground: 280 10% 97%;
+    --border: 280 30% 10%;
+    --input: 280 30% 10%;
+    --ring: 280 100% 50%;
+    --radius: 1rem;
+  }
+
+  .light {
+    --background: 0 0% 100%;
+    --foreground: 280 10% 3%;
+    --card: 0 0% 100%;
+    --card-foreground: 280 10% 3%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 280 10% 3%;
+    --primary: 280 100% 50%;
+    --primary-foreground: 280 10% 97%;
+    --secondary: 280 30% 90%;
+    --secondary-foreground: 280 10% 3%;
+    --muted: 280 30% 90%;
+    --muted-foreground: 280 10% 40%;
+    --accent: 280 30% 90%;
+    --accent-foreground: 280 10% 3%;
+    --destructive: 0 100% 30%;
+    --destructive-foreground: 280 10% 97%;
+    --border: 280 30% 90%;
+    --input: 280 30% 90%;
+    --ring: 280 100% 50%;
+  }
+  
+}
+.mobile-body {
+  overflow: hidden;
+  height: 100vh;
+}
+
+.mobile-wrap {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.mobile-content {
+  height: calc(100% + 1px);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+.gradient-bg {
+  background: radial-gradient(circle at top right, hsl(280 100% 50% / 0.15), transparent 50%),
+              radial-gradient(circle at bottom left, hsl(320 100% 50% / 0.15), transparent 50%);
+}
+
