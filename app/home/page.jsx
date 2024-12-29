@@ -13,7 +13,7 @@ import axios from 'axios';
 
 export default function HomePage() {
   const { theme, setTheme } = useTheme();
-  const { user, isReady, error, fetchWithAuth } = useTelegramWebApp();
+  const { user, isReady, error } = useTelegramWebApp();
   const [res, setRes] = useState(null);
 
   const saveUser = async () => {
