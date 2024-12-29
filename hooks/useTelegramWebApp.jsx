@@ -24,16 +24,7 @@ export function useTelegramWebApp() {
 
         // Extract user data from init data
         if (initData.user) {
-          setUser({
-            id: initData.user.id,
-            firstName: initData.user.first_name,
-            lastName: initData.user.last_name,
-            username: initData.user.username,
-            languageCode: initData.user.language_code,
-            isPremium: initData.user.is_premium,
-            allowsWriteToPm: initData.user.allows_write_to_pm,
-            photoUrl: initData.user.photo_url
-          });
+          setUser(initData.user);
         }
 
         // Additional context data
