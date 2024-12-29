@@ -94,12 +94,12 @@ export default function HomePage() {
                       )}
                     </div>
 
-                    <div>
-                      <h2 className="text-lg font-bold mb-2">Server Response:</h2>
-                      <pre className="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg text-sm text-gray-800 dark:text-gray-200 overflow-x-auto">
-                        {res ? JSON.stringify(res, null, 2) : "Loading response..."}
-                      </pre>
-                    </div>
+                  </div>
+                  <div>
+                    <h2 className="text-lg font-bold mb-2">Server Response:</h2>
+                    <pre className="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg text-sm text-gray-800 dark:text-gray-200 overflow-x-auto">
+                      {res ? JSON.stringify(res, null, 2) : "Loading response..."}
+                    </pre>
                   </div>
                 </div>
               </div>
