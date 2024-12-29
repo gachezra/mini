@@ -17,17 +17,20 @@ export default function HomePage() {
   const [res, setRes] = useState(null);
 
   const saveUser = async () => {
-    let userData;
-
-    userData = user;
-
-    const res = await axios.post('/api/users/', userData);
-    setRes(res);
+    try {
+      if (user) {
+        const response = await axios.post("/api/users/", user);
+        setRes(response.data); // Save the actual data from the server response
+      }
+    } catch (err) {
+      console.error("Failed to save user:", err);
+      setRes({ error: err.message }); // Handle errors gracefully
+    }
   };
 
   useEffect(() => {
-    saveUser();
-  },[])
+    if (user) saveUser();
+  }, [user]);
 
   return (
     <main className="min-h-screen gradient-bg pb-20">
