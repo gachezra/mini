@@ -1,31 +1,40 @@
 import bot from "@/lib/bot";
-
-let userData = null;
+import { db } from "@/lib/firebase";
+import { collection, doc, setDoc } from "firebase/firestore";
 
 bot.on("message", async (ctx) => {
   const { id: chatId, username } = ctx.chat;
-  const photos = ctx.message.from?.photo || [];
-  const profilePhoto = photos.length > 0 ? photos[0].file_id : null;
+  
+  try {
+    // Get profile photo if available
+    let profilePhoto = null;
+    const photos = await ctx.telegram.getUserProfilePhotos(ctx.from.id, 0, 1);
+    if (photos && photos.total_count > 0) {
+      profilePhoto = photos.photos[0][0].file_id;
+    }
 
-  userData = {
-    chatId,
-    username,
-    profilePhoto,
-  };
+    // Save user data to Firebase
+    const userRef = doc(db, "users", chatId.toString());
+    await setDoc(userRef, {
+      chatId: chatId.toString(),
+      username,
+      profilePhoto,
+      lastActive: new Date().toISOString(),
+    }, { merge: true });
 
-  ctx.reply("Your data has been captured!");
+    ctx.reply("Your data has been captured!");
+  } catch (error) {
+    console.error("Error saving user data:", error);
+    ctx.reply("Sorry, there was an error processing your data.");
+  }
 });
 
-export async function POST(req, res) {
+export async function POST(req) {
   try {
     await bot.handleUpdate(await req.json());
-    res.status(200).send("OK");
+    return new Response("OK", { status: 200 });
   } catch (error) {
     console.error(error);
-    res.status(500).send("Error handling update");
+    return new Response("Error handling update", { status: 500 });
   }
-}
-
-export function GET(req, res) {
-  res.status(200).json(userData || { message: "No data captured yet." });
 }
