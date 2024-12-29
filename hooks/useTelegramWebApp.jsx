@@ -1,37 +1,48 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Telegram from '@telegram-apps/sdk';
+import { retrieveLaunchParams } from '@telegram-apps/sdk';
 
 export function useTelegramWebApp() {
+  const [initData, setInitData] = useState(null);
   const [user, setUser] = useState(null);
   const [isReady, setIsReady] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const initTelegramSDK = async () => {
+    const initTelegramWebApp = async () => {
       try {
-        // Initialize the Telegram SDK
-        Telegram.init();
+        // Retrieve launch parameters including init data
+        const { initDataRaw, initData } = retrieveLaunchParams();
 
-        if (!Telegram.WebApp.isReady) {
-          await Telegram.WebApp.waitForReady(); // Wait until the WebApp is ready
+        if (!initDataRaw || !initData) {
+          throw new Error('Failed to retrieve initialization data');
         }
 
-        // Retrieve user data
-        const userData = Telegram.WebApp.initDataUnsafe?.user;
+        // Store raw init data for API requests
+        setInitData(initDataRaw);
 
-        if (!userData) {
-          throw new Error('Failed to retrieve user data. Ensure your bot has proper permissions.');
+        // Extract user data from init data
+        if (initData.user) {
+          setUser({
+            id: initData.user.id,
+            firstName: initData.user.first_name,
+            lastName: initData.user.last_name,
+            username: initData.user.username,
+            languageCode: initData.user.language_code,
+            isPremium: initData.user.is_premium,
+            allowsWriteToPm: initData.user.allows_write_to_pm,
+            photoUrl: initData.user.photo_url
+          });
         }
 
-        setUser({
-          id: userData.id,
-          firstName: userData.first_name,
-          lastName: userData.last_name,
-          username: userData.username,
-          languageCode: userData.language_code,
-        });
+        // Additional context data
+        const contextData = {
+          chatType: initData.chat_type,
+          chatInstance: initData.chat_instance,
+          startParam: initData.start_param,
+          authDate: new Date(initData.auth_date * 1000)
+        };
 
         setIsReady(true);
       } catch (err) {
@@ -40,8 +51,22 @@ export function useTelegramWebApp() {
       }
     };
 
-    initTelegramSDK();
+    initTelegramWebApp();
   }, []);
 
-  return { user, isReady, error };
+  // Helper function to make authenticated API requests
+  const fetchWithAuth = async (url, options = {}) => {
+    if (!initData) {
+      throw new Error('Init data not available');
+    }
+
+    const headers = {
+      ...options.headers,
+      'Authorization': `tma ${initData}`
+    };
+
+    return fetch(url, { ...options, headers });
+  };
+
+  return { user, isReady, error, fetchWithAuth };
 }
