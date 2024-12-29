@@ -84,7 +84,7 @@ export default function HomePage() {
                         ID: {user.id}
                       </p>
                       <pre className="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg text-sm text-gray-800 dark:text-gray-200 overflow-x-auto">
-                        {JSON.stringify(res, null, 2)}
+                        {res.message}
                       </pre>
                       {user.allowsWriteToPm && (
                         <p className="flex items-center gap-2">
