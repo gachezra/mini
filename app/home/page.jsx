@@ -19,7 +19,7 @@ export default function HomePage() {
   const saveUser = async () => {
     try {
       if (user) {
-        const response = await axios.post("/api/users", user);
+        const response = await axios.get("/api/users", user);
         setRes(response.data); // Save the actual data from the server response
       }
     } catch (err) {

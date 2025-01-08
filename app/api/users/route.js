@@ -10,7 +10,7 @@ export async function GET() {
       ...doc.data()
     }));
     
-    return NextResponse.json({ users });
+    return NextResponse.json({ users: 'This is get' });
   } catch (error) {
     console.error('Error fetching users:', error);
     return NextResponse.json(
