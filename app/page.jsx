@@ -6,6 +6,9 @@ import { useInView } from 'react-intersection-observer'
 import { Star, Video, Users, Gift } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
+
+
+
 const features = [
   {
     icon: Video,

@@ -8,11 +8,8 @@ export const viewport = {
   maximumScale: 1,
   minimumScale: 1,
   userScalable: false,
-  viewportFit: 'cover',
-  // This ensures the viewport stays fixed
-  position: 'fixed',
-  // Disable iOS bounce effect
-  touchAction: 'none'
+  // Also supported by less commonly used
+  // interactiveWidget: 'resizes-visual',
 }
 
 const poppins = Poppins({ 
@@ -20,10 +17,11 @@ const poppins = Poppins({
   weight: ['400', '500', '600', '700']
 })
 
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${poppins.className} overflow-auto`}>
+      <body className={poppins.className}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
             {children}
         </ThemeProvider>
